@@ -1,16 +1,26 @@
 import { useState } from "react";
 
-const DisplayValue = ({ category, value }) => (
-  <div>{`${category} ${value}`}</div>
-);
-
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>;
+
+const Statistics = ({ good, neutral, bad }) => {
+  const all = good + neutral + bad;
+  return (
+    <div>
+      <h2>Statidtics</h2>
+      <div>{`Good ${good}`}</div>
+      <div>{`Neutral ${neutral}`}</div>
+      <div>{`Bad ${bad}`}</div>
+      <div>{`All ${all}`}</div>
+      <div>{`Average ${all ? (good - bad) / all : 0}`}</div>
+      <div>{`Positive ${all ? (good / all) * 100 : 0}%`}</div>
+    </div>
+  );
+};
 
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
-  const all = good + neutral + bad;
 
   const handleFeedBack = (newValue, setFuction) => {
     setFuction(newValue);
@@ -25,16 +35,7 @@ const App = () => {
         text="Neutral"
       />
       <Button onClick={() => handleFeedBack(bad + 1, setBad)} text="Bad" />
-      <h2>Statistics</h2>
-      <DisplayValue category="Good" value={good} />
-      <DisplayValue category="Neutral" value={neutral} />
-      <DisplayValue category="Bad" value={bad} />
-      <DisplayValue category="All" value={good + neutral + bad} />
-      <DisplayValue
-        category="Average"
-        value={(good + neutral * 0 + bad * -1) / all}
-      />
-      <DisplayValue category="Positive" value={`${(good / all) * 100}%`} />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   );
 };
