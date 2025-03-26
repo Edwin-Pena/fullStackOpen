@@ -12,16 +12,7 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
-  const votes = {
-    0: 0,
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-  };
+  const votes = Array(8).fill(0);
 
   const [selected, setSelected] = useState(0);
   const [votesValue, SetVotesValue] = useState(votes);
@@ -37,7 +28,7 @@ const App = () => {
   };
 
   const handleVotes = () => {
-    const newVotes = { ...votesValue };
+    const newVotes = [...votesValue];
     newVotes[selected] += 1;
     SetVotesValue(newVotes);
     console.log("votes updated", newVotes);
