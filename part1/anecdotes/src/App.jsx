@@ -12,7 +12,21 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
+  const votes = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+  };
+
   const [selected, setSelected] = useState(0);
+  const [votesValue, SetVotesValue] = useState(votes);
+  const anecdotesLength = anecdotes.length;
+
   const handleAnecdote = (max) => {
     let newSelected;
     do {
@@ -22,11 +36,18 @@ const App = () => {
     console.log(newSelected);
   };
 
-  const anecdotesLength = anecdotes.length;
+  const handleVotes = () => {
+    const newVotes = { ...votesValue };
+    newVotes[selected] += 1;
+    SetVotesValue(newVotes);
+    console.log("votes updated", newVotes);
+  };
 
   return (
     <>
       <div>{anecdotes[selected]}</div>
+      <div> {`has ${votesValue[selected]} votes`}</div>
+      <button onClick={handleVotes}>vote</button>
       <button onClick={() => handleAnecdote(anecdotesLength)}>
         next anecdote
       </button>
