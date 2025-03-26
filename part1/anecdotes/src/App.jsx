@@ -34,14 +34,25 @@ const App = () => {
     console.log("votes updated", newVotes);
   };
 
+  const findMaxvotes = () => {
+    const maxVotes = Math.max(...votesValue);
+    return [maxVotes, votesValue.indexOf(maxVotes)];
+  };
+
+  const [higestVoteScore, favoriteAnecdote] = findMaxvotes();
+
   return (
     <>
+      <h2>Anecdote of the day</h2>
       <div>{anecdotes[selected]}</div>
       <div> {`has ${votesValue[selected]} votes`}</div>
       <button onClick={handleVotes}>vote</button>
       <button onClick={() => handleAnecdote(anecdotesLength)}>
         next anecdote
       </button>
+      <h2>Anecdote with most votes</h2>
+      <div>{anecdotes[favoriteAnecdote]}</div>
+      <div> {`has ${higestVoteScore} votes`}</div>
     </>
   );
 };
