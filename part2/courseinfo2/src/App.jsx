@@ -1,5 +1,11 @@
 const Header = ({ course }) => <h1>{course}</h1>;
 
+const Part = ({ part }) => (
+  <p>
+    {part.name} {part.exercises}
+  </p>
+);
+
 const Content = ({ parts }) => (
   <>
     {parts.map((part, i) => (
@@ -8,19 +14,15 @@ const Content = ({ parts }) => (
   </>
 );
 
-const Part = ({ part }) => (
-  <p>
-    {part.name} {part.exercises}
-  </p>
-);
-
-/* const Total = (props) => <p>Number of exercises {props.total}</p>; */
+const Total = ({ total }) => <strong>Total of {total} exercises</strong>;
 
 const Course = ({ course }) => {
+  const total = course.parts.reduce((s, p) => s + p.exercises, 0);
   return (
     <div>
       <Header course={course.name} />
       <Content parts={course.parts} />
+      <Total total={total} />
     </div>
   );
 };
