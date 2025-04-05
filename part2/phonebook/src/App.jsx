@@ -31,7 +31,11 @@ const App = () => {
         handleValueChange={handleValueChange}
       />
       <h2>Numbers</h2>
-      <Persons arrPerson={persons} filterValue={filterValue} />
+      <Persons
+        arrPerson={persons}
+        filterValue={filterValue}
+        setPersons={setPersons}
+      />
       <div>debug: {filterValue}</div>
     </div>
   );
