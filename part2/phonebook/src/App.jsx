@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
+import contacts from "./services/contacts";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,10 +10,7 @@ const App = () => {
   const [filterValue, setFilterValue] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("promise fulfilled");
-      setPersons(response.data);
-    });
+    contacts.getAll().then((initialContacts) => setPersons(initialContacts));
   }, []);
 
   const handleValueChange = (event, setter) => {

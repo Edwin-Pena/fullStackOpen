@@ -1,4 +1,4 @@
-import axios from "axios";
+import contacts from "../services/contacts";
 import { useState } from "react";
 
 const PersonForm = ({ persons, setPersons, handleValueChange }) => {
@@ -22,9 +22,11 @@ const PersonForm = ({ persons, setPersons, handleValueChange }) => {
       ? alert(
           `There is already a person registered with the number ${newNumber}`
         )
-      : axios
-          .post("http://localhost:3001/persons", newPerson)
-          .then(setPersons(persons.concat(newPerson)));
+      : contacts
+          .create(newPerson)
+          .then((returnedContact) =>
+            setPersons(persons.concat(returnedContact))
+          );
 
     setNewName("");
     setNewNumber("");
