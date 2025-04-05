@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 const PersonForm = ({ persons, setPersons, handleValueChange }) => {
@@ -21,7 +22,9 @@ const PersonForm = ({ persons, setPersons, handleValueChange }) => {
       ? alert(
           `There is already a person registered with the number ${newNumber}`
         )
-      : setPersons(persons.concat(newPerson));
+      : axios
+          .post("http://localhost:3001/persons", newPerson)
+          .then(setPersons(persons.concat(newPerson)));
 
     setNewName("");
     setNewNumber("");
