@@ -13,30 +13,21 @@ const App = () => {
     contacts.getAll().then((initialContacts) => setPersons(initialContacts));
   }, []);
 
-  const handleValueChange = (event, setter) => {
-    setter(event.target.value);
-  };
-
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter
         value={filterValue}
-        onChange={(e) => handleValueChange(e, setFilterValue)}
+        onChange={(e) => setFilterValue(e.target.value)}
       />
       <h3>Add a new</h3>
-      <PersonForm
-        persons={persons}
-        setPersons={setPersons}
-        handleValueChange={handleValueChange}
-      />
+      <PersonForm persons={persons} setPersons={setPersons} />
       <h2>Numbers</h2>
       <Persons
         arrPerson={persons}
         filterValue={filterValue}
         setPersons={setPersons}
       />
-      <div>debug: {filterValue}</div>
     </div>
   );
 };

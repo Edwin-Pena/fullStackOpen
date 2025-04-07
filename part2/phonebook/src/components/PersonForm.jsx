@@ -1,7 +1,7 @@
 import contacts from "../services/contacts";
 import { useState } from "react";
 
-const PersonForm = ({ persons, setPersons, handleValueChange }) => {
+const PersonForm = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -12,21 +12,38 @@ const PersonForm = ({ persons, setPersons, handleValueChange }) => {
 
   const addPerson = (event) => {
     event.preventDefault();
-    const newPerson = { name: newName, number: newNumber };
     const existingName = existingValue(newName, "name");
     const existingNumber = existingValue(newNumber, "number");
 
-    existingName
-      ? alert(`${newName} is already added to phonebook`)
-      : existingNumber
-      ? alert(
-          `There is already a person registered with the number ${newNumber}`
+    if (existingName) {
+      const contact = persons.find(
+        (p) => p.name.toLowerCase() === newName.toLowerCase()
+      );
+      const changeContact = { ...contact, number: newNumber };
+      const id = contact.id;
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with the new one?`
         )
-      : contacts
-          .create(newPerson)
-          .then((returnedContact) =>
-            setPersons(persons.concat(returnedContact))
+      ) {
+        contacts.updateNumber(id, changeContact).then((returnedContact) => {
+          setPersons(
+            persons.map((person) =>
+              person.id !== id ? person : returnedContact
+            )
           );
+        });
+      }
+    } else if (existingNumber) {
+      alert(
+        `There is already a person registered with the number ${newNumber}`
+      );
+    } else {
+      const newPerson = { name: newName, number: newNumber };
+      contacts
+        .create(newPerson)
+        .then((returnedContact) => setPersons(persons.concat(returnedContact)));
+    }
 
     setNewName("");
     setNewNumber("");
@@ -38,7 +55,7 @@ const PersonForm = ({ persons, setPersons, handleValueChange }) => {
         name:
         <input
           value={newName}
-          onChange={(e) => handleValueChange(e, setNewName)}
+          onChange={(e) => setNewName(e.target.value)}
           required
         />
       </div>
@@ -46,7 +63,7 @@ const PersonForm = ({ persons, setPersons, handleValueChange }) => {
         number:
         <input
           value={newNumber}
-          onChange={(e) => handleValueChange(e, setNewNumber)}
+          onChange={(e) => setNewNumber(e.target.value)}
           pattern="[^A-Za-z]*"
           title="Please enter numbers"
           required
