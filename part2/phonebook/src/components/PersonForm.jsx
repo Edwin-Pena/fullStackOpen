@@ -26,15 +26,26 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
           `${newName} is already added to phonebook, replace the old number with the new one?`
         )
       ) {
-        contacts.updateNumber(id, changeContact).then((returnedContact) => {
-          setPersons(
-            persons.map((person) =>
-              person.id !== id ? person : returnedContact
-            )
-          );
-          setNotificacion(`${returnedContact.name} was updated`);
-          setTimeout(() => setNotificacion(null), 4000);
-        });
+        contacts
+          .updateNumber(id, changeContact)
+          .then((returnedContact) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== id ? person : returnedContact
+              )
+            );
+            setNotificacion({
+              message: `${returnedContact.name} was updated`,
+              result: "success",
+            });
+            setTimeout(() => setNotificacion(null), 4000);
+          })
+          .catch(() => {
+            setNotificacion({
+              message: `Information of ${contact.name} has already been removed from server`,
+              result: "error",
+            });
+          });
       }
     } else if (existingNumber) {
       alert(
@@ -44,7 +55,10 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
       const newPerson = { name: newName, number: newNumber };
       contacts.create(newPerson).then((returnedContact) => {
         setPersons(persons.concat(returnedContact));
-        setNotificacion(`${returnedContact.name} was succesfully added`);
+        setNotificacion({
+          message: `${returnedContact.name} was succesfully added`,
+          result: "success",
+        });
         setTimeout(() => setNotificacion(null), 4000);
       });
     }
