@@ -1,7 +1,7 @@
 import contacts from "../services/contacts";
 import { useState } from "react";
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({ persons, setPersons, setNotificacion }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -32,6 +32,8 @@ const PersonForm = ({ persons, setPersons }) => {
               person.id !== id ? person : returnedContact
             )
           );
+          setNotificacion(`${returnedContact.name} was updated`);
+          setTimeout(() => setNotificacion(null), 4000);
         });
       }
     } else if (existingNumber) {
@@ -40,9 +42,11 @@ const PersonForm = ({ persons, setPersons }) => {
       );
     } else {
       const newPerson = { name: newName, number: newNumber };
-      contacts
-        .create(newPerson)
-        .then((returnedContact) => setPersons(persons.concat(returnedContact)));
+      contacts.create(newPerson).then((returnedContact) => {
+        setPersons(persons.concat(returnedContact));
+        setNotificacion(`${returnedContact.name} was succesfully added`);
+        setTimeout(() => setNotificacion(null), 4000);
+      });
     }
 
     setNewName("");
