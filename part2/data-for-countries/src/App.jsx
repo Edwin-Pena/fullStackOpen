@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Countries from "./components/Countries";
 import Search from "./components/Search";
+import getInfo from "./services/countries";
 
 const App = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    getInfo().then((searchedCountries) => setCountries(searchedCountries));
+  }, []);
 
   return (
     <div>
@@ -11,8 +17,7 @@ const App = () => {
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
       />
-      <Countries />
-      <div>debug: {searchValue}</div>
+      <Countries countries={countries} value={searchValue} />
     </div>
   );
 };
