@@ -1,5 +1,6 @@
-const Country = ({ filterCountry }) => {
-  const [country] = filterCountry;
+const Country = ({ country }) => {
+  /* const [country] = filterCountry; */
+
   return (
     <div>
       <h1>{country.name.common}</h1>
