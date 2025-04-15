@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Countries from "./components/Countries";
 import Search from "./components/Search";
 import countriesData from "./services/countriesData";
-/* import getInfo from "./services/countries"; */
 
 const App = () => {
   const [searchValue, setSearchValue] = useState("");
