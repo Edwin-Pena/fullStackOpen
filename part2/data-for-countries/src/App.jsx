@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import Countries from "./components/Countries";
 import Search from "./components/Search";
-import getInfo from "./services/countries";
+import countriesData from "./services/countriesData";
+/* import getInfo from "./services/countries"; */
 
 const App = () => {
   const [searchValue, setSearchValue] = useState("");
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
-    getInfo().then((searchedCountries) => setCountries(searchedCountries));
+    countriesData
+      .getInfo()
+      .then((searchedCountries) => setCountries(searchedCountries));
   }, []);
 
   return (

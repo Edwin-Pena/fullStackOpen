@@ -1,5 +1,5 @@
-const Country = ({ country }) => {
-  /* const [country] = filterCountry; */
+const Country = ({ country, weatherObj }) => {
+  const [weather] = weatherObj.weather;
 
   return (
     <div>
@@ -13,6 +13,13 @@ const Country = ({ country }) => {
         ))}
       </ul>
       <img src={country.flags.png} alt={country.flags.alt} />
+      <h2>Weather in {country.capital}</h2>
+      <div>Temperature {weatherObj.main.temp} Celsius</div>
+      <img
+        src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
+        alt=""
+      />
+      <div>Wind {weatherObj.wind.speed} m/s</div>
     </div>
   );
 };
