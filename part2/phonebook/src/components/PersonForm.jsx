@@ -5,15 +5,15 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
-  const existingValue = (newVal, property) =>
-    persons.some(
-      (person) => newVal.toLowerCase() === person[property].toLowerCase()
-    );
-
   const addPerson = (event) => {
     event.preventDefault();
-    const existingName = existingValue(newName, "name");
-    const existingNumber = existingValue(newNumber, "number");
+    const existingName = persons.some(
+      (person) => newName.toLowerCase() === person.name.toLowerCase()
+    );
+
+    const existingNumber = persons.some(
+      (person) => newNumber === person.number
+    );
 
     if (existingName) {
       const contact = persons.find(
