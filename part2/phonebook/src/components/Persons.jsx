@@ -1,6 +1,6 @@
 import contacts from "../services/contacts";
 
-const Persons = ({ arrPerson, filterValue, setPersons }) => {
+const Persons = ({ arrPerson, filterValue, setPersons, setNotificacion }) => {
   const filterNames = arrPerson.filter((person) =>
     person.name.toLowerCase().includes(filterValue.toLowerCase())
   );
@@ -11,9 +11,13 @@ const Persons = ({ arrPerson, filterValue, setPersons }) => {
         `Are you sure you want to remove ${person.name} from your Phonebook?`
       )
     ) {
-      contacts.deletePerson(person.id).then((response) => {
+      contacts.deletePerson(person.id).then(() => {
         setPersons(arrPerson.filter((p) => p.id !== person.id));
-        console.log("the response is: ", response);
+        setNotificacion({
+          message: `${person.name} was deleted`,
+          result: "error",
+        });
+        setTimeout(() => setNotificacion(null), 4000);
       });
     } else {
       console.log(`the contact ${person.name} was not deleted`);

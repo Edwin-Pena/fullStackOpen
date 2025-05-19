@@ -33,6 +33,7 @@ const App = () => {
         arrPerson={persons}
         filterValue={filterValue}
         setPersons={setPersons}
+        setNotificacion={setNotificacion}
       />
     </div>
   );

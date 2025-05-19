@@ -21,6 +21,7 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
       );
       const changeContact = { ...contact, number: newNumber };
       const id = contact.id;
+
       if (
         window.confirm(
           `${newName} is already added to phonebook, replace the old number with the new one?`
@@ -51,6 +52,7 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
       alert(
         `There is already a person registered with the number ${newNumber}`
       );
+      return;
     } else {
       const newPerson = { name: newName, number: newNumber };
       contacts.create(newPerson).then((returnedContact) => {
@@ -59,12 +61,11 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
           message: `${returnedContact.name} was succesfully added`,
           result: "success",
         });
+        setNewName("");
+        setNewNumber("");
         setTimeout(() => setNotificacion(null), 4000);
       });
     }
-
-    setNewName("");
-    setNewNumber("");
   };
 
   return (
