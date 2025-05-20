@@ -42,27 +42,30 @@ app.get("/info", (request, response) => {
   });
 });
 
-app.post("/api/persons", (request, response) => {
+app.post("/api/persons", (request, response, next) => {
   const body = request.body;
-  console.log("this is te name:", body.name);
+  /* console.log("this is te name:", body.name); */
 
-  if (!body.name || !body.number) {
+  /* if (!body.name || !body.number) {
     return response.status(404).json({
       error: "content missing",
     });
-  }
+  } */
 
   const person = new Person({
     name: body.name,
     number: body.number,
   });
 
-  person.save().then((savedPerson) => {
-    response.json(savedPerson);
-    console.log(
-      `added ${savedPerson.name} number ${savedPerson.number} to phonebook`
-    );
-  });
+  person
+    .save()
+    .then((savedPerson) => {
+      response.json(savedPerson);
+      console.log(
+        `added ${savedPerson.name} number ${savedPerson.number} to phonebook`
+      );
+    })
+    .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", (request, response, next) => {
@@ -101,6 +104,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === "CastError") {
     return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).json({ error: error.message });
   }
 
   next(error);

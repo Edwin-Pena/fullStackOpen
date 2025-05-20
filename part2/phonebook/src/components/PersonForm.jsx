@@ -55,16 +55,32 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
       return;
     } else {
       const newPerson = { name: newName, number: newNumber };
-      contacts.create(newPerson).then((returnedContact) => {
-        setPersons(persons.concat(returnedContact));
-        setNotificacion({
-          message: `${returnedContact.name} was succesfully added`,
-          result: "success",
+      contacts
+        .create(newPerson)
+        .then((returnedContact) => {
+          setPersons(persons.concat(returnedContact));
+          setNotificacion({
+            message: `${returnedContact.name} was succesfully added`,
+            result: "success",
+          });
+          setNewName("");
+          setNewNumber("");
+          setTimeout(() => setNotificacion(null), 4000);
+        })
+        .catch((error) => {
+          console.log(
+            "error: ",
+            error.response.statusText,
+            error.response.status
+          );
+          setNotificacion({
+            message: `${newName} is too short, the name must be at least 3 characters long`,
+            result: "error",
+          });
+          setNewName("");
+          setNewNumber("");
+          setTimeout(() => setNotificacion(null), 4000);
         });
-        setNewName("");
-        setNewNumber("");
-        setTimeout(() => setNotificacion(null), 4000);
-      });
     }
   };
 
