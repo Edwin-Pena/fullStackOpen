@@ -68,11 +68,7 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
           setTimeout(() => setNotificacion(null), 4000);
         })
         .catch((error) => {
-          console.log(
-            "error: ",
-            error.response.statusText,
-            error.response.status
-          );
+          console.log("error: ", error.response.data.error);
           setNotificacion({
             message: `${newName} is too short, the name must be at least 3 characters long`,
             result: "error",
