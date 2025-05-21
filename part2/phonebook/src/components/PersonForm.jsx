@@ -69,12 +69,20 @@ const PersonForm = ({ persons, setPersons, setNotificacion }) => {
         })
         .catch((error) => {
           console.log("error: ", error.response.data.error);
-          setNotificacion({
-            message: `${newName} is too short, the name must be at least 3 characters long`,
-            result: "error",
-          });
-          setNewName("");
-          setNewNumber("");
+          //console.log(error); -->error response to view properties
+
+          if (error.response.data.errors.name) {
+            setNotificacion({
+              message: `${newName} is too short, the name must be at least 3 characters long`,
+              result: "error",
+            });
+          } else if (error.response.data.errors.number) {
+            setNotificacion({
+              message: `${newNumber} is not a valid phone number, please enter a valid one`,
+              result: "error",
+            });
+          }
+
           setTimeout(() => setNotificacion(null), 4000);
         });
     }
