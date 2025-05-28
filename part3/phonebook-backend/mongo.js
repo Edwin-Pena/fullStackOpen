@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 if (process.argv.length < 3) {
-  console.log("give password as argument");
+  console.log('give password as argument');
   process.exit(1);
 }
 
@@ -9,7 +9,7 @@ const password = process.argv[2];
 
 const url = `mongodb+srv://edwinpdeveloper:${password}@cluster0.uhsf7q2.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`;
 
-mongoose.set("strictQuery", false);
+mongoose.set('strictQuery', false);
 
 mongoose.connect(url);
 
@@ -18,7 +18,8 @@ const PersonSchema = new mongoose.Schema({
   number: Number,
 });
 
-const Person = mongoose.model("Person", PersonSchema);
+// eslint-disable-next-line no-unused-vars
+const Person = mongoose.model('Person', PersonSchema);
 
 /* if (process.argv.length === 5) {
   const person = new Person({
